@@ -1,0 +1,36 @@
+\begin{thebibliography}{}
+
+\bibitem[Albert, 2015]{Albert15}
+Albert, J. (2015).
+\newblock {Improved component predictions of batting measures}.
+\newblock {\em arXiv preprint arXiv:1505.05557}.
+
+\bibitem[Brown, 2008]{Brown08}
+Brown, L.~D. (2008).
+\newblock {In-season prediction of batting averages: A field test of empirical
+  Bayes and Bayes methodologies}.
+\newblock {\em The Annals of Applied Statistics}, 2(1):113--152.
+
+\bibitem[Judge and {BP Stats Team}, 2015]{Judge15}
+Judge, J. and {BP Stats Team} (2015).
+\newblock {DRA: An in-depth discussion}.
+\newblock {\em Baseball Prospectus}.
+
+\bibitem[Neal et~al., 2010]{Neal.etal10}
+Neal, D., Tan, J., Hao, F., and Wu, S.~S. (2010).
+\newblock {Simply better: Using regression models to estimate major league
+  batting averages}.
+\newblock {\em Journal of Quantitative Analysis in Sports}, 6(3).
+
+\bibitem[Null, 2009]{Null09}
+Null, B. (2009).
+\newblock {Modeling baseball player ability with a nested dirichlet
+  distribution}.
+\newblock {\em Journal of Quantitative Analysis in Sports}, 5(2).
+
+\bibitem[Tango et~al., 2007]{TheBook}
+Tango, T.~M., Lichtman, M.~G., and Dolphin, A.~E. (2007).
+\newblock {\em {The Book: Playing the percentages in baseball}}.
+\newblock Potomac Books.
+
+\end{thebibliography}

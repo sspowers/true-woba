@@ -1,0 +1,63 @@
+\begin{thebibliography}{}
+
+\bibitem[Albert, 2015]{Albert15}
+Albert, J. (2015).
+\newblock {Improved component predictions of batting measures}.
+\newblock {\em arXiv preprint arXiv:1505.05557}.
+
+\bibitem[Bates et~al., 2014]{lme4}
+Bates, D., Maechler, M., Bolker, B.~M., and Walker, S. (2014).
+\newblock {lme4}: Linear mixed-effects models using eigen and s4.
+\newblock ArXiv e-print; submitted to \emph{Journal of Statistical Software}.
+
+\bibitem[Brown, 2008]{Brown08}
+Brown, L.~D. (2008).
+\newblock {In-season prediction of batting averages: A field test of empirical
+  Bayes and Bayes methodologies}.
+\newblock {\em The Annals of Applied Statistics}, 2(1):113--152.
+
+\bibitem[Carleton, 2012]{Carleton12}
+Carleton, R. (2012).
+\newblock {It's a small sample size after all}.
+\newblock {\em Baseball Prospectus}.
+\newblock http://www.baseballprospectus.com/article.php?articleid=17659.
+
+\bibitem[FanGraphs, 2015]{FanGraphs}
+FanGraphs (2015).
+\newblock Major league leaderboards.
+\newblock http://www.fangraphs.com/leaders.aspx.
+
+\bibitem[FanGraphs, 2016]{wOBAweights}
+FanGraphs (2016).
+\newblock woba.
+\newblock http://www.fangraphs.com/library/offense/woba/.
+
+\bibitem[Friedman et~al., 2010]{glmnet}
+Friedman, J., Hastie, T.~J., and Tibshirani, R.~J. (2010).
+\newblock {Regularization paths for generalized linear models via coordinate
+  descent}.
+\newblock {\em Journal of Statistical Software}, 33(1):1--22.
+
+\bibitem[Judge and {BP Stats Team}, 2015]{Judge15}
+Judge, J. and {BP Stats Team} (2015).
+\newblock {DRA: An in-depth discussion}.
+\newblock {\em Baseball Prospectus}.
+
+\bibitem[Neal et~al., 2010]{Neal.etal10}
+Neal, D., Tan, J., Hao, F., and Wu, S.~S. (2010).
+\newblock {Simply better: Using regression models to estimate major league
+  batting averages}.
+\newblock {\em Journal of Quantitative Analysis in Sports}, 6(3).
+
+\bibitem[Null, 2009]{Null09}
+Null, B. (2009).
+\newblock {Modeling baseball player ability with a nested dirichlet
+  distribution}.
+\newblock {\em Journal of Quantitative Analysis in Sports}, 5(2).
+
+\bibitem[Tango et~al., 2007]{TheBook}
+Tango, T.~M., Lichtman, M.~G., and Dolphin, A.~E. (2007).
+\newblock {\em {The Book: Playing the percentages in baseball}}.
+\newblock Potomac Books.
+
+\end{thebibliography}
