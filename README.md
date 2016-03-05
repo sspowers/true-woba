@@ -22,10 +22,10 @@ players with low BABIP.
 
 Second, we discuss in detail the relationship between regression to the mean
 and its extension to shrinkage regression estimators pioneered by
-\citet{Judge15}. In particular, we relate the penalty parameter in regularized
-regression to the population variance parameter in regression to the mean to
-explore conceptually the fundamental difference between how much shrinkage is
-applied in each estimator.
+Judge et al. (2015). In particular, we relate the penalty parameter in
+regularized regression to the population variance parameter in regression to
+the mean to explore conceptually the fundamental difference between how much
+shrinkage is applied in each estimator.
 
 Third, we make a novel comparison between regularized linear regression and
 random effects linear models. This comparison leads to a discussion of the
