@@ -10,8 +10,8 @@ three parts.
 First, we argue against the use of stabilization rates when interpreting small
 sample sizes. For one matter, stabilization rates have more to do with the
 population variance in true skill level than variance in the observed
-statistic. For another, there is a spectrum of sample sizes, not just ``too
-small'' and ``big enough,'' a nuance not addressed by stabilization rates. We
+statistic. For another, there is a spectrum of sample sizes, not just _too
+small_ and _big enough_, a nuance not addressed by stabilization rates. We
 advocate the use of regression to the mean to precisely quantify the
 uncertainty due to finite sample sizes. A feature of regression to the mean for
 wOBA is that it automatically learns that the population variance for
@@ -36,5 +36,5 @@ relate to evaluating players on a level playing field, accounting for sample
 size and other factors. No statistic readily available from FanGraphs.com or
 Baseball-Reference.com accomplishes this task, which should be the first step
 in player evaluation, as opposed to squinting at sample sizes and BABIPs to
-ascertain whether a player's performance level is ``sustainable.''
+ascertain whether a player's performance level is _sustainable_.
 
