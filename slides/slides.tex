@@ -39,188 +39,159 @@
 \hfill\includegraphics[width = 1in]{../figs/ssac.png}
 \end{frame}
 
-\begin{frame}{Which statistic is more volatile?}
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\centering
-{\Huge\tt BABIP}\\
-$$\frac{\mbox{\tt H - HR}}{\mbox{\tt AB - K - HR + SF}}$$
-~\\
+\begin{frame}{Review: regression to the mean}
+\begin{tabular}{ccc}
+True strikeout probability  & $p$ & {\color{white}?}\\
+    \vspace{2mm}\\
+Observed strikeout rate     & $\hat p = \frac{\mbox{\tt K}}{\mbox{\tt PA}}$
+    & {\color{white}$\frac{23}{138} = 16.7\%$}\\
+    \vspace{2mm}\\
+Regression to the mean      & $p^* = \frac{\mbox{\tt K} + N\bar p}
+    {\mbox{\tt PA} + N}$ &
+    {\color{white}$\frac{23 + 40(20.4\%)}{138 + 40} = 17.5\%$}
+\end{tabular}\\
 \vspace{4mm}
-``Stabilizes'' after 820 BIP\\
-~\\
-League average: .299
-\end{column}
-\begin{column}{0.5\textwidth}
-\centering
-{\Huge\tt OBP}\\
-$$\frac{\mbox{\tt H + BB + HBP}}{\mbox{\tt AB + BB + HBP + SF}}$$
-~\\
-\vspace{4mm}
-``Stabilizes'' after 460 PA\\
-~\\
-League average: .317
-\end{column}
-\end{columns}
-\vspace{6.5mm}
-~\\
-\end{frame}
-
-\begin{frame}{Which statistic is more volatile?}
 \begin{columns}
-\begin{column}{0.5\textwidth}
-\centering
-{\Huge\tt BABIP}\\
-$$X_1 = \mbox{BABIP on $1^{st}$ 150 BIP}$$
-$$X_2 = \mbox{BABIP on $2^{nd}$ 150 BIP}$$
-\end{column}
-\begin{column}{0.5\textwidth}
-\centering
-{\Huge\tt OBP}\\
-$$Y_1 = \mbox{OBP on $1^{st}$ 150 PA}$$
-$$Y_2 = \mbox{OBP on $2^{nd}$ 150 PA}$$
-\end{column}
-\end{columns}
-\centering
+\begin{column}{0.6\textwidth}
+\hfill {\small $\bar p =$ league average strikeout rate}\\
 \vspace{1cm}
-Which is greater: $\mE(X_1 - X_2)^2$ or $\mE(Y_1 - Y_2)^2$?\\
-~\\
-\begin{columns}
-\begin{column}{0.5\textwidth}
-\pause
-$$\sqrt{\mE(X_1 - X_2)^2} = 0.058$$
+$${\color{white} N = \frac{\bar p(1 - \bar p)}{\sigma^2_T}}$$
 \end{column}
-\begin{column}{0.5\textwidth}
-\pause
-$$\sqrt{\mE(Y_1 - Y_2)^2} = 0.062$$
+\begin{column}{0.4\textwidth}
+\centering
+\includegraphics[width = 3cm]{../figs/gosewhite.png}\\
+\large {\color{white} Tuffy Gosewisch}\\
+{\color{white}\tiny Ralph Freso, Getty Images}
 \end{column}
 \end{columns}
 \end{frame}
 
-\begin{frame}{What is going on?}
-Suppose a statistic $Z$ can be split into talent $T$ and luck $L$:
-$$Z_1 = T + L_1 \hspace{1cm} Z_2 = T + L_2,$$
-with
-$$\sigma^2_T = \mbox{Var}(T) \hspace{1cm}\mbox{and}\hspace{1cm}
-    \sigma^2_L = \mbox{Var}(L_1) = \mbox{Var}(L_2)$$
+\begin{frame}{Review: regression to the mean}
+\begin{tabular}{ccc}
+True strikeout probability  & $p$ & ?\\
+    \vspace{2mm}\\
+Observed strikeout rate     & $\hat p = \frac{\mbox{\tt K}}{\mbox{\tt PA}}$
+    & $\frac{23}{138} = 16.7\%$\\
+    \vspace{2mm}\\
+Regression to the mean      & $p^* = \frac{\mbox{\tt K} + N\bar p}
+    {\mbox{\tt PA} + N}$ & $\frac{23 + 40(20.4\%)}{138 + 40} = 17.5\%$
+\end{tabular}\\
 \vspace{4mm}
-~\\
-Assuming $T$, $L_1$ and $L_2$ are independent,
-$$\mbox{Corr}(Z_1, Z_2) = \frac{\sigma^2_T}{\sigma^2_T + \sigma^2_L}$$
+\begin{columns}
+\begin{column}{0.6\textwidth}
+\hfill {\small $\bar p =$ league average strikeout rate}\\
+\vspace{1cm}
+$${\color{white} N = \frac{\bar p(1 - \bar p)}{\sigma^2_T}}$$
+\end{column}
+\begin{column}{0.4\textwidth}
+\centering
+\includegraphics[width = 3cm]{../figs/gosewisch.png}\\
+\large Tuffy Gosewisch\\
+{\color{gray}\tiny Ralph Freso, Getty Images}
+\end{column}
+\end{columns}
 \end{frame}
 
-\begin{frame}{Outline}
-\begin{itemize}
-\item Introduction
-\tabto*{8cm}\makebox(0,0){\put(0, -2\normalbaselineskip){$\left.
-    \rule{0pt}{1\normalbaselineskip}\right\}$ Eli}}
-\begin{itemize}
-    \item Regression to the mean
-\end{itemize}
-\item Methods
-\tabto*{8cm}\makebox(0,0){\put(0, -4.6\normalbaselineskip){$\left.
-    \rule{0pt}{2\normalbaselineskip}\right\}$ Scott}}
-\begin{itemize}
-    \item Regularization as regression to the mean
-    \item True wOBA
-    \item Regularization vs. random effect models
-\end{itemize}
-\item Results
-\tabto*{8cm}\makebox(0,0){\put(0, -4.8\normalbaselineskip){$\left.
-    \rule{0pt}{2\normalbaselineskip}\right\}$ Eli}}
-\begin{itemize}
-    \item Validation
-    \item Results on 2015 MLB regular season
-\end{itemize}
-\item Discussion
-\end{itemize}
+\begin{frame}{Review: regression to the mean}
+\begin{tabular}{ccc}
+True strikeout probability  & $p$ & ?\\
+    \vspace{2mm}\\
+Observed strikeout rate     & $\hat p = \frac{\mbox{\tt K}}{\mbox{\tt PA}}$
+    & $\frac{23}{138} = 16.7\%$\\
+    \vspace{2mm}\\
+Regression to the mean      & $p^* = \frac{\mbox{\tt K} + N\bar p}
+    {\mbox{\tt PA} + N}$ & $\frac{23 + 40(20.4\%)}{138 + 40} = 17.5\%$
+\end{tabular}\\
+\vspace{4mm}
+\begin{columns}
+\begin{column}{0.6\textwidth}
+\hfill {\small $\bar p =$ league average strikeout rate}\\
+\vspace{1cm}
+$$N = \frac{\bar p(1 - \bar p)}{\sigma^2_T}$$
+\end{column}
+\begin{column}{0.4\textwidth}
+\centering
+\includegraphics[width = 3cm]{../figs/gosewisch.png}\\
+\large Tuffy Gosewisch\\
+{\color{gray}\tiny Ralph Freso, Getty Images}
+\end{column}
+\end{columns}
 \end{frame}
 
-\begin{frame}{Regression to the mean}
-$$T \sim \N(\mu_T, \sigma^2_T) \hspace{1cm}
-Z|T \sim \N(T, \sigma^2_L)$$
+\begin{frame}{Review: regression to the mean}
+$$p \sim \N(\bar p, \sigma^2_T) \hspace{1cm}
+{\color{white} \hat p|p \sim \N\l(p,~\sigma^2_L = \frac{p(1-p)}{n}\r)}$$
 \begin{center}
 \includegraphics[width = \textwidth]{../figs/talent.pdf}\\
 \end{center}
 \vspace{-6mm}\tabto*{37mm}$\uparrow$\\
-\tabto*{36mm}$\mu_T$
-\pause
-\vspace{-5mm}\tabto*{58mm}$\uparrow$\\
-\tabto*{57.5mm}$Z$
+\tabto*{37mm}$\bar p$
 {\color{white}
+\vspace{-5mm}\tabto*{58mm}$\uparrow$\\
+\tabto*{57.5mm}$\hat p$
 \vspace{-4.5mm}\tabto*{44mm}$\uparrow$\\
-\tabto*{43mm}$Z^*$\\}
-$${\color{white} Z^* = E[T|Z] = \frac{\sigma_T^{-2}\mu_T + \sigma_L^{-2}Z}
-    {\sigma_T^{-2} + \sigma_L^{-2}} }$$
+\tabto*{44mm}$p^*$\\}
+$${\color{white} p^* = E[p|\hat p] = \arg\min_{p^*}{E[(p - p^*)^2|\hat p]}
+    = \frac{\sigma_T^{-2}\bar p + \sigma_L^{-2}\hat p}
+    {\sigma_T^{-2} + \sigma_L^{-2}}}$$
 \end{frame}
 
-\begin{frame}{Regression to the mean}
-$$T \sim \N(\mu_T, \sigma^2_T) \hspace{1cm}
-Z|T \sim \N(T, \sigma^2_L)$$
+\begin{frame}{Review: regression to the mean}
+$$p \sim \N(\bar p, \sigma^2_T) \hspace{1cm}
+\hat p|p \sim \N\l(p,~\sigma^2_L = \frac{p(1-p)}{n}\r)$$
 \begin{center}
 \includegraphics[width = \textwidth]{../figs/talent-skill.pdf}
 \end{center}
 \vspace{-6mm}\tabto*{37mm}$\uparrow$\\
-\tabto*{36mm}$\mu_T$
+\tabto*{37mm}$\bar p$
 \vspace{-5mm}\tabto*{58mm}$\uparrow$\\
-\tabto*{57.5mm}$Z$
+\tabto*{57.5mm}$\hat p$
 {\color{white}
 \vspace{-4.5mm}\tabto*{44mm}$\uparrow$\\
-\tabto*{43mm}$Z^*$\\}
-$${\color{white} Z^* = E[T|Z] = \frac{\sigma_T^{-2}\mu_T + \sigma_L^{-2}Z}
-    {\sigma_T^{-2} + \sigma_L^{-2}} }$$
+\tabto*{44mm}$p^*$\\}
+$${\color{white} p^* = E[p|\hat p] = \arg\min_{p^*}{E[(p - p^*)^2|\hat p]}
+    = \frac{\sigma_T^{-2}\bar p + \sigma_L^{-2}\hat p}
+    {\sigma_T^{-2} + \sigma_L^{-2}}}$$
 \end{frame}
 
-\begin{frame}{Regression to the mean}
-$$T \sim \N(\mu_T, \sigma^2_T) \hspace{1cm}
-Z|T \sim \N(T, \sigma^2_L)$$
+\begin{frame}{Review: regression to the mean}
+$$p \sim \N(\bar p, \sigma^2_T) \hspace{1cm}
+\hat p|p \sim \N\l(p,~\sigma^2_L = \frac{p(1-p)}{n}\r)$$
 \begin{center}
 \includegraphics[width = \textwidth]{../figs/talent-skill-post.pdf}
 \end{center}
 \vspace{-6mm}\tabto*{37mm}$\uparrow$\\
-\tabto*{36mm}$\mu_T$
+\tabto*{37mm}$\bar p$
 \vspace{-5mm}\tabto*{58mm}$\uparrow$\\
-\tabto*{57.5mm}$Z$
+\tabto*{57.5mm}$\hat p$
 \vspace{-4.5mm}\tabto*{44mm}$\uparrow$\\
-\tabto*{43mm}$Z^*$\\
-$$Z^* = \mE[T|Z] = \frac{\sigma_T^{-2}\mu_T + \sigma_L^{-2}Z}
+\tabto*{44mm}$p^*$\\
+$$p^* = E[p|\hat p] = \arg\min_{p^*}{E[(p - p^*)^2|\hat p]}
+    = \frac{\sigma_T^{-2}\bar p + \sigma_L^{-2}\hat p}
     {\sigma_T^{-2} + \sigma_L^{-2}}$$
 \end{frame}
 
-\begin{frame}{Regression to the mean for each outcome probability}
-\centering
-\begin{tabular}{c|r|cc}
-\multicolumn{2}{c}{}    & (Naive)   & (Regressed)\\
-    & $\hat\sigma^2_T$  & RMSE($Z$) & RMSE($Z^*$)\\
-    \hline
-G   & 15.85             & 4.80      & 4.42\\
-F   & 20.13             & 4.45      & 4.22\\
-K   & 29.10             & 4.19      & 3.89\\
-BB  &  6.26             & 3.33      & 3.04\\
-HBP &  0.24             & 0.94      & 0.80\\
-1B  &  7.02             & 3.81      & 3.17\\
-2B  &  0.45             & 2.01      & 1.62\\
-3B  &  0.13             & 0.74      & 0.67\\
-HR  &  1.88             & 1.79      & 1.61
-\end{tabular}\\
-\vspace{1cm}
-{\bf Upshot}: Different population variances for different outcomes,\\
-but regression to the mean improves RMSE for all of them!
-\end{frame}
-
-\begin{frame}{Regressed wOBA vs. naive wOBA}
-\centering
-\includegraphics[width = 0.8\textwidth]
-    {../figs/woba-observed-v-estimated-slides.pdf}
-\end{frame}
-
-\begin{frame}{Projected change in wOBA vs. BABIP}
-\centering
-\includegraphics[width = 0.7\textwidth]{../figs/woba-v-babip-slides.pdf}
-\end{frame}
-
-\begin{frame}
-\centering\Huge Methods
+\begin{frame}{Outline for this presentation}
+\begin{itemize}
+    \item Theory
+    \tabto*{8cm}\makebox(0,0){\put(0, -5.5\normalbaselineskip){$\left.
+        \rule{0pt}{2.5\normalbaselineskip}\right\}$ Scott}}
+    \begin{itemize}
+        \item \sout{Regression to the mean}
+        \item Regularized linear regression
+        \item Regularization vs. regression to the mean
+        \item Regularization vs. mixed effect modelling
+    \end{itemize}
+    \item Application
+    \tabto*{8cm}\makebox(0,0){\put(0, -6\normalbaselineskip){$\left.
+        \rule{0pt}{2.6\normalbaselineskip}\right\}$ Eli}}
+    \begin{itemize}
+        \item Regressing wOBA to the mean
+        \item Comparison of true talent estimators
+        \item True wOBA results
+    \end{itemize}
+    \item Discussion
+\end{itemize}
 \end{frame}
 
 \begin{frame}{A simple linear model}
@@ -238,7 +209,7 @@ $$(\hat\alpha, \hat\beta) = \arg\min\sum_{i=1}^n(K_i - \alpha - \beta_{B_i})^2
     \hat\alpha + \hat\beta_{B} = \frac{\sum_{i:B_i=B}K_i}{\sum_{i:B_i=B}1}$$
 \end{frame}
 
-\begin{frame}{Ridge regression}
+\begin{frame}{Regularized linear regression}
 \vspace{-1cm}
 \begin{align*}
 \mbox{Instead of solving}&\\   (\hat\alpha, \hat\beta) = & \hspace{1mm}
@@ -250,7 +221,45 @@ $$(\hat\alpha, \hat\beta) = \arg\min\sum_{i=1}^n(K_i - \alpha - \beta_{B_i})^2
 The result is
 $$\beta^*_B = \frac{\lambda\cdot0 + n_B\hat\beta_B}{\lambda + n_B},\hspace{4mm}
     \mbox{where}\hspace{4mm}n_B = \sum_{i:B_i=B}1$$
-For $\lambda = \sigma^2_L/\sigma^2_T$, this is regression to the mean!
+\end{frame}
+
+\begin{frame}{Regularization vs. regression to the mean}
+Regression to the mean:
+$$p^* = \frac{\sigma_T^{-2}\bar p + \sigma_L^{-2}\hat p}
+    {\sigma_T^{-2} + \sigma_L^{-2}}$$
+{\color{white} -- $\sigma_T^2$ estimated by comparing across-player variance to
+    $\sigma^2_L$}\\~\\
+Regularization:
+$$\alpha^* + \beta^* = \frac{\lambda\hat\alpha + n(\hat\alpha + \hat\beta)}
+    {\lambda + B} = \frac{\lambda\bar p + n\hat p}{\lambda + n}$$
+{\color{white} -- $\lambda$ chosen by cross-validation}\\~\\
+If $\lambda = n\sigma^2_L/\sigma^2_T$, these estimates are identical!
+\end{frame}
+
+\begin{frame}{Regularization vs. regression to the mean}
+Regression to the mean:
+$$p^* = \frac{\sigma_T^{-2}\bar p + \sigma_L^{-2}\hat p}
+    {\sigma_T^{-2} + \sigma_L^{-2}}$$
+-- $\sigma_T^2$ estimated by comparing across-player variance to
+    $\sigma^2_L$\\~\\
+Regularization:
+$$\alpha^* + \beta^* = \frac{\lambda\hat\alpha + n(\hat\alpha + \hat\beta)}
+    {\lambda + B} = \frac{\lambda\bar p + n\hat p}{\lambda + n}$$
+{\color{white} -- $\lambda$ chosen by cross-validation}\\~\\
+If $\lambda = n\sigma^2_L/\sigma^2_T$, these estimates are identical!
+\end{frame}
+
+\begin{frame}{Regularization vs. regression to the mean}
+Regression to the mean:
+$$p^* = \frac{\sigma_T^{-2}\bar p + \sigma_L^{-2}\hat p}
+    {\sigma_T^{-2} + \sigma_L^{-2}}$$
+-- $\sigma_T^2$ estimated by comparing across-player variance to
+    $\sigma^2_L$\\~\\
+Regularization:
+$$\alpha^* + \beta^* = \frac{\lambda\hat\alpha + n(\hat\alpha + \hat\beta)}
+    {\lambda + B} = \frac{\lambda\bar p + n\hat p}{\lambda + n}$$
+-- $\lambda$ chosen by cross-validation\\~\\
+If $\lambda = n\sigma^2_L/\sigma^2_T$, these estimates are identical!
 \end{frame}
 
 \begin{frame}{Logistic regression}
@@ -263,36 +272,6 @@ $$\eta_i = \alpha + \beta_{B_i}, \hspace{4mm}\mbox{and}\hspace{4mm}
 ~{\bf Estimator (Ridge)}:
 $$(\alpha^*, \beta^*) = \arg\min-\sum_{i=1}^n\log\mP(K_i|\eta_i) +
     \lambda\sum_B\beta_B^2$$
-\end{frame}
-
-\begin{frame}{Ridge estimator vs. Naive estimator for 1B rate}
-\centering
-\includegraphics[width = 0.7\textwidth]{../figs/regul-as-regre-b.pdf}
-\end{frame}
-
-\begin{frame}{Ridge estimator vs. Regressed estimator for 1B rate}
-\centering
-\includegraphics[width = 0.7\textwidth]{../figs/regul-as-regre-c.pdf}
-\end{frame}
-
-\begin{frame}{Test RMSE: regularization vs. regression to the mean}
-\centering
-\begin{tabular}{c|ccc}
-    & Naive & Regressed & Ridge\\
-    \hline
-G   & 4.41  & 3.98      & 3.97\\
-F   & 4.45  & 3.97      & 3.99\\
-K   & 4.25  & 3.89      & 3.90\\
-BB  & 2.60  & 2.38      & 2.39\\
-HBP & 1.04  & 0.89      & 0.88\\
-1B  & 3.66  & 3.09      & 3.08\\
-2B  & 2.21  & 1.68      & 1.67\\
-3B  & 0.82  & 0.63      & 0.64\\
-HR  & 1.71  & 1.52      & 1.51
-\end{tabular}\\
-\vspace{1cm}
-{\bf Upshot}: Ridge regression is essentially regression to the mean,\\
-but it allows extensions, which we will see next!
 \end{frame}
 
 \begin{frame}{True wOBA}
@@ -339,32 +318,80 @@ $$(\alpha^*, \beta^*, \sigma^{2*}_\beta) =
     \arg\max L(\alpha, \beta, \sigma^2_\beta|B_i, K_i)$$
 \end{frame}
 
-\begin{frame}{Test RMSE: regularization vs. random effect model}
-\begin{center}
-\begin{tabular}{c|cc}
-    & Regressed & Random\\
-    \hline
-G   & 3.38      & 3.38\\
-F   & 3.48      & 3.49\\
-K   & 3.30      & 3.35\\
-BB  & 2.06      & 2.06\\
-HBP & 0.78      & 0.77\\
-1B  & 2.63      & 2.64\\
-2B  & 1.45      & 1.44\\
-3B  & 0.55      & 0.56\\
-HR  & 1.36      & 1.35
-\end{tabular}
-\end{center}
-{\bf Upshot}: Regularization is very similar to random effect modelling, with
-two differences:
-\begin{itemize}
-    \item How population variance is estimated
-    \item Regularization can be applied to multinomial regression
-\end{itemize}
+\begin{frame}
+\centering\Huge Application
 \end{frame}
 
 \begin{frame}
-\centering\Huge Results
+\centering\LARGE Regression to the Mean
+\end{frame}
+
+\begin{frame}{Regression to the mean for each outcome probability}
+For each outcome, use $1^{st}$ 200 PAs to predict rate on next 200 PAs\\~\\
+\centering
+\begin{tabular}{c|r|cc}
+\multicolumn{2}{c}{}    & (Naive)           & (Regressed)\\
+    & $\hat\sigma^2_T$  & RMSE($\hat p$)    & RMSE($p^*$)\\
+    \hline
+G   & 15.85             & 4.80              & 4.42\\
+F   & 20.13             & 4.45              & 4.22\\
+K   & 29.10             & 4.19              & 3.89\\
+BB  &  6.26             & 3.33              & 3.04\\
+HBP &  0.24             & 0.94              & 0.80\\
+1B  &  7.02             & 3.81              & 3.17\\
+2B  &  0.45             & 2.01              & 1.62\\
+3B  &  0.13             & 0.74              & 0.67\\
+HR  &  1.88             & 1.79              & 1.61
+\end{tabular}\\
+{\scriptsize Units: percentage points}\\
+{\bf Upshot}: Different population variances for different outcomes,\\
+but regression to the mean improves RMSE for all of them!
+\end{frame}
+
+\begin{frame}{Regressed wOBA vs. observed wOBA}
+\centering
+\includegraphics[width = 0.8\textwidth]
+    {../figs/woba-observed-v-estimated-slides.pdf}
+\end{frame}
+
+\begin{frame}{Projected change in wOBA vs. BABIP}
+\centering
+\includegraphics[width = 0.7\textwidth]{../figs/woba-v-babip-slides.pdf}
+\end{frame}
+
+\begin{frame}
+\centering\LARGE Estimator Comparison
+\end{frame}
+
+\begin{frame}{Test RMSE for different talent estimators}
+Randomly split PAs into training and test sets, using training set to predict
+test set rate for each outcome\\~\\
+\centering
+\begin{tabular}{c|cccc}
+    & Naive & Regressed & Ridge & Random\\
+    \hline
+G   & 4.41  & 3.98      & 3.97  & 3.98\\
+F   & 4.45  & 3.97      & 3.99  & 3.98\\
+K   & 4.25  & 3.89      & 3.90  & 3.90\\
+BB  & 2.60  & 2.38      & 2.39  & 2.39\\
+HBP & 1.04  & 0.89      & 0.88  & 0.88\\
+1B  & 3.66  & 3.09      & 3.08  & 3.08\\
+2B  & 2.21  & 1.68      & 1.67  & 1.67\\
+3B  & 0.82  & 0.63      & 0.64  & 0.64\\
+HR  & 1.71  & 1.52      & 1.51  & 1.50
+\end{tabular}\\
+{\scriptsize Units: percentage points}\\
+{\bf Upshot}: In this simple example, these three estimators are virtually
+equivalent!
+\end{frame}
+
+\begin{frame}{Ridge estimator vs. Regressed estimator for 1B rate}
+\centering
+\includegraphics[width = 0.7\textwidth]{../figs/regul-as-regre-c.pdf}
+\end{frame}
+
+\begin{frame}
+\centering\LARGE True wOBA Validation
 \end{frame}
 
 \begin{frame}{Validation}
@@ -383,21 +410,26 @@ two differences:
 \item Test set: 82,692 PAs
 \end{itemize}
 \begin{center}
-\begin{tabular}{c|rrrr}
+\begin{tabular}{c|cccc}
 Estimator           &  Naive    & Regressed & True          & Mixed\\
 \hline
-Estimated MSE      & 0.00456   & 0.00220   & {\bf 0.00173} & 0.00180\\
-Stadard error       &$\pm$0.00044&$\pm$0.00018&$\pm$0.00014 &$\pm$0.00015
-\end{tabular}
+Estimated MSE      & 45.6   & 22.0   & {\bf 17.3} & 18.0\\
+Stadard error       &$\pm$4.4&$\pm$1.8&$\pm$1.4 &$\pm$1.5
+\end{tabular}\\
+{\scriptsize Units: wOBA points}
 \end{center}
 \end{frame}
 
-\begin{frame}{True wOBA vs. naive wOBA}
+\begin{frame}
+\centering\LARGE True wOBA Results
+\end{frame}
+
+\begin{frame}{True wOBA vs. observed wOBA}
 \centering
 \includegraphics[width = 0.7\textwidth]{../figs/true-woba-batters.pdf}
 \end{frame}
 
-\begin{frame}{True wOBA against vs. naive wOBA against}
+\begin{frame}{True wOBA against vs. observed wOBA against}
 \centering
 \includegraphics[width = 0.7\textwidth]{../figs/true-woba-pitchers.pdf}
 \end{frame}
@@ -463,6 +495,9 @@ Bottom&Nolan Arenado   &COL &--.037\\
       &Bryce Harper    &WSN &--.045\\
       &David Peralta   &ARI &--.046
 \end{tabular}
+\\
+\vspace{5mm}
+Min. 500 PA
 \end{frame}
 
 \begin{frame}{Top differences between naive and True wOBA against}
@@ -484,12 +519,16 @@ Bottom&Sonny Gray     &OAK & +.016\\
       &Jake Arrieta   &CHC & +.021\\
       &Zack Greinke   &LAD & +.023
 \end{tabular}
+\\
+\vspace{5mm}
+Min. 500 PA
 \end{frame}
 
 \begin{frame}{Discussion}
 Three contributions:
 \begin{itemize}
-\item We advocate use of regression to the mean instead of stabilization rates
+\item We remind everyone of regression to the mean for interpretation of small
+    sample sizes
 \item We explain relationship between regularized linear models and regression
     to the mean
 \item We compare regularized linear models with linear mixed effects models
