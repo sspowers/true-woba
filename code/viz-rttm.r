@@ -1,3 +1,6 @@
+# code to produce pretty normal curves on slides 5-7
+# and function plots on slides 14, 17
+
 require(ggplot2)
 
 blank =

@@ -14,7 +14,7 @@ source('code/util.r')
 data = read.csv('data/all2015.csv', header = FALSE)
 colnames(data) = read.csv('data/fields.csv')$Header
 
-# create y
+# create y (vector containing outcome variable)
 events = sort(c('F', 'G', 'K', 'BB', 'HBP', '1B', '2B', '3B', 'HR'))
 y = as.character(data$EVENT_CD)
 y[(y == 2 | y == 18 | y == 19) & data$BATTEDBALL_CD != 'G'] = 'F'
@@ -29,7 +29,7 @@ y[y == 23] = 'HR'
 subset = is.element(y, events) & data$BAT_FLD_CD != 1
 y = as.factor(y[subset])
 
-# create x
+# create x (_sparse_ design matrix containing covariates for regression)
 hand = (data$RESP_BAT_HAND_CD != data$RESP_PIT_HAND_CD)[subset]
 home = data$BAT_HOME_ID[subset] == 1
 stadium = as.numeric(as.factor(as.character(data$HOME_TEAM_ID[subset]))) + 2
@@ -38,28 +38,28 @@ pitcher = as.numeric(as.factor(as.character(data$PIT_ID[subset]))) + max(batter)
 x = sparseMatrix(c(which(hand), which(home), rep(1:sum(subset), 3)),
     c(rep(1, sum(hand)), rep(2, sum(home)), stadium, batter, pitcher))
 
-# hold out test set
+
+
+
+# CODE TO PRODUCE FIGURE AND TABLES IN METHODS SECTION OF PAPER
+
+# hold out test set (randomly selection half of the data)
 set.seed(4987)
 test = sample(1:sum(subset), floor(sum(subset)/2))
 
-
-
-
-# METHODS
-
-# naive estimator
+# fit naive estimator for each outcome on training data
 count = aggregate(y[-test], by = list(batter[-test]), table)
 pa = rowSums(count[,-1])
 naive = count[,-1]/rowSums(count[,-1])
 names(pa) = rownames(naive) = sort(unique(data$BAT_ID[subset][-test]))
 
-# null estimator
+# fit null estimator for each outcome on training data
 null = naive
 for (e in events) {
     null[, e] = mean(y[-test] == e)
 }
 
-# regressed estimator
+# fit regressed estimator for each outcome on training data
 regressed = naive
 for (e in events) {
     priorMean = mean(y[-test] == e)
@@ -69,7 +69,7 @@ for (e in events) {
 }
 regressed = regressed/rowSums(regressed)
 
-# ridge regression
+# fit ridge regression estimator for each outcome on training data
 Sys.time = Sys.time()
 batter.b = as.numeric(as.factor(as.character(data$BAT_ID[subset][-test])))
 x.b = sparseMatrix(1:length(batter.b), batter.b)
@@ -93,7 +93,7 @@ for (e in events) {
 ridge = ridge/rowSums(ridge)
 Sys.time() - Sys.time
 
-# random effects
+# fit random effects estimator for each outcome on training data
 Sys.time = Sys.time()
 random = naive
 for (e in events) {
@@ -120,6 +120,7 @@ error = function(pred) {
 
 # FIGURE AND TABLES FOR METHODS SECTION
 
+# Produce Figure 3 in the paper
 pdf('figs/regul-as-regre.pdf', width = 9, height = 3)
 stat = '1B'
 lim = c(.11, .24)
@@ -153,87 +154,70 @@ abline(0, 1, col = 'forestgreen')
 abline(h = mean(y == stat), lty = 2)
 dev.off()
 
-pdf('figs/regul-as-regre-b.pdf', width = 5, height = 5)
-plot(naive[, stat], ridge[, stat], col = 'dodgerblue',
-    xlab = 'Naive estimator for 1B rate', xlim = lim,
-    ylab = 'Ridge estimator for 1B rate', ylim = lim)
-points(naive[pa < 20, stat], ridge[pa < 20, stat], col = 'darkorange',
-    pch = 19)
-abline(0, 1, col = 'forestgreen')
-abline(h = mean(y == stat), lty = 2)
-legend('topleft', c('Diagonal y = x', 'Mean 1B rate', '< 20 PA', '> 19 PA'),
-    pch = c(NA, NA, 19, 1), lty = c(1, 2, NA, NA), box.lwd = -1,
-    col = c('forestgreen', 'black', 'darkorange', 'dodgerblue'))
-dev.off()
-
-pdf('figs/regul-as-regre-c.pdf', width = 5, height = 5)
-plot(regressed[, stat], ridge[, stat], col = 'dodgerblue',
-    xlab = 'Regressed estimator for 1B rate', xlim = lim,
-    ylab = 'Ridge estimator for 1B rate', ylim = lim)
-points(regressed[pa < 20, stat], ridge[pa < 20, stat], col = 'darkorange',
-    pch = 19)
-abline(0, 1, col = 'forestgreen')
-abline(h = mean(y == stat), lty = 2)
-legend('topleft', c('Diagonal y = x', 'Mean 1B rate', '< 20 PA', '> 19 PA'),
-    pch = c(NA, NA, 19, 1), lty = c(1, 2, NA, NA), box.lwd = -1,
-    col = c('forestgreen', 'black', 'darkorange', 'dodgerblue'))
-dev.off()
-
-table1 = 100*sqrt(rbind(error(naive), error(regressed), error(ridge)))[, 
+# Produce Table 2 in the paper
+table2 = 100*sqrt(rbind(error(naive), error(regressed), error(ridge)))[, 
     c('G', 'F', 'K', 'BB', 'HBP', '1B', '2B', '3B', 'HR')]
-rownames(table1) = c('Naive', 'Regressed', 'Ridge')
-print(xtable(table1, digits = 2, display = c('s', rep('f', 9))),
+rownames(table2) = c('Naive', 'Regressed', 'Ridge')
+print(xtable(table2, digits = 2, display = c('s', rep('f', 9))),
     only.contents = TRUE, file = 'tabs/regul-as-regre.tex',
     include.colnames = FALSE, hline.after = c())
 
-table2 = 100*sqrt(rbind(error(regressed), error(random)))[, 
+# Produce Table 3 in the paper
+table3 = 100*sqrt(rbind(error(regressed), error(random)))[, 
     c('G', 'F', 'K', 'BB', 'HBP', '1B', '2B', '3B', 'HR')]
-rownames(table2) = c('Regressed', 'Random')
-print(xtable(table2, digits = 2, display = c('s', rep('f', 9))),
+rownames(table3) = c('Regressed', 'Random')
+print(xtable(table3, digits = 2, display = c('s', rep('f', 9))),
     only.contents = TRUE, file = 'tabs/regul-vs-rando.tex',
     include.colnames = FALSE, hline.after = c())
 
 
 
 
-# RESULTS
+# CODE TO PRODUCE FIGURES AND TABLES IN RESULTS SECTION
 
 weights = c(.881, 1.256, 1.594, .687, 0, 0, .718, 2.065, 0)
 names(weights) = levels(y)
 
+
+# VALIDATION
+
+# Randomly select test set for holding out.
+# If batter, pitcher have same handedness, put PA in test set with prob. 10%
+# If batter, pitcher have oppo handedness, put PA in test set with prob. 90%
 set.seed(4964)
 test = which(rbinom(sum(subset), 1, .1 + .8*hand) == 1)
 fold = sample(rep(1:10, length = sum(subset) - length(test)))
 
-#month = as.numeric(substr(data$GAME_ID[subset], 8, 9))
-#test = which(month > 6)
-#set.seed(4964)
-#fold = sample(rep(1:10, length = sum(subset) - length(test)))
-
-
-# Validation
-
-# naive estimator
+# Fit naive estimator of wOBA on training data
 count = aggregate(y[-test], by = list(batter[-test]), table)
 pa = rowSums(count[,-1])
 naive = count[,-1]/rowSums(count[,-1])
 names(pa) = rownames(naive) = sort(unique(data$BAT_ID[subset][-test]))
 woba.naive = colSums(weights*t(naive))
 
+# Marcel (at Tango's request)
+pa.to.add = c(296, 1114, 576, 98, 0, 0, 257, 132, 59)
+league.ave = c(table(y)/length(y))
+count.marcel = t(t(count[,-1]) + pa.to.add*league.ave)
+pa.marcel = t(t(matrix(pa,nrow(count.marcel),ncol(count.marcel))) + pa.to.add)
+marcel = count.marcel/pa.marcel
+rownames(marcel) = rownames(naive)
+woba.marcel = colSums(weights*t(marcel))
+
+# Fit naive estimator of wOBA for pitchers on training data (not used)
 count.p = aggregate(y[-test], by = list(pitcher[-test]), table)
 pa.p = rowSums(count.p[,-1])
 naive.p = count.p[,-1]/rowSums(count.p[,-1])
 names(pa.p) = rownames(naive.p) = sort(unique(data$PIT_ID[subset][-test]))
 woba.naive.p = colSums(weights*t(naive.p))
 
-
-# null estimator
+# Fit null estimator of wOBA on training data
 null = naive
 for (e in events) {
     null[, e] = mean(y[-test] == e)
 }
 
-# regressed estimator
+# Fit regressed estimator of wOBA on training data
 regressed = naive
 for (e in events) {
     priorMean = mean(y[-test] == e)
@@ -242,14 +226,9 @@ for (e in events) {
     regressed[, e] = (naive[, e]/var + priorMean/priorVar)/(1/var + 1/priorVar)
 }
 regressed = regressed/rowSums(regressed)
-
-
-
-
-
-
 woba.regressed = colSums(weights*t(regressed))
 
+# Fit True wOBA on training data
 prob.true = matrix(NA, length(test), length(events))
 colnames(prob.true) = events
 for (e in events) {
@@ -258,12 +237,11 @@ for (e in events) {
     prob.true[, e] =
         predict(fit, x[test, ], type = 'response', s = 'lambda.min')[, 1]
 }
-
 pred.true = aggregate(prob.true, by = list(batter[test]), mean)[, -1]
 rownames(pred.true) = sort(unique(data$BAT_ID[subset][test]))
 woba.true = colSums(weights*t(pred.true))
 
-
+# Fit linear mixed effects model for wOBA on training data
 hand.t = hand[-test]
 home.t = home[-test]
 stadium.t = as.factor(data$HOME_TEAM_ID[subset])[-test]
@@ -284,6 +262,7 @@ pred.mixed = predict(fit.mixed, newdata = x.test)
 woba.mixed = aggregate(pred.mixed, by = list(batter[test]), mean)[, -1]
 names(woba.mixed) = names(woba.true)
 
+# Compute test error of all methods
 count.test = aggregate(y[test], by = list(batter[test]), table)
 pa.test = rowSums(count.test[,-1])
 y.test = count.test[,-1]/rowSums(count.test[,-1])
@@ -301,23 +280,23 @@ error = function(pred) {
 
 error(woba.naive)
 error(woba.regressed)
+error(woba.marcel)
 error(woba.true)
 error(woba.mixed)
 
 
 
 
+# True wOBA (results of fitting to entire dataset)
 
-
-
-# RESULTS
-
+# Fit naive estimator of wOBA to all 2015 data
 count = aggregate(y, by = list(batter), table)
 pa = rowSums(count[,-1])
 naive = count[,-1]/rowSums(count[,-1])
 names(pa) = rownames(naive) = sort(unique(data$BAT_ID[subset]))
 woba.naive = colSums(weights*t(naive))
 
+# Fit naive estimator of wOBA against to all 2015 data
 count.p = aggregate(y, by = list(pitcher), table)
 pa.p = rowSums(count.p[,-1])
 naive.p = count.p[,-1]/rowSums(count.p[,-1])
@@ -325,7 +304,7 @@ names(pa.p) = rownames(naive.p) = sort(unique(data$PIT_ID[subset]))
 woba.naive.p = colSums(weights*t(naive.p))
 
 
-
+# Fit True wOBA to all 2015 data
 set.seed(1987)
 fold = sample(rep(1:10, length = nrow(x)))
 pred.true = matrix(NA, ncol(x), length(events))
@@ -344,6 +323,7 @@ woba.true = colSums(weights*t(pred.true))
 woba.true.bat = woba.true[sort(unique(batter))]
 woba.true.pit = woba.true[sort(unique(pitcher))]
 
+# Produce Figure 4 in the paper
 pdf('figs/true-woba.pdf', height = 5, width = 10)
 par(mfrow = c(1, 2))
 bat.match = intersect(names(woba.naive), names(woba.true.bat))
@@ -377,6 +357,7 @@ abline(0, 1, col = 'forestgreen')
 abline(h = mean(woba.true.pit), lty = 2)
 dev.off()
 
+# Produce Figure 4(a) from paper for slides
 pdf('figs/true-woba-batters.pdf', height = 5, width = 5)
 bat.match = intersect(names(woba.naive), names(woba.true.bat))
 few.pa = intersect(bat.match, names(which(pa < 20)))
@@ -396,6 +377,7 @@ legend('topleft', c('Diagonal y = x', 'Mean True wOBA', '< 20 PA', '> 19 PA'),
     col = c('forestgreen', 'black', 'darkorange', 'dodgerblue'))
 dev.off()
 
+# Produce Figure 4(b) from paper for slides
 pdf('figs/true-woba-pitchers.pdf', height = 5, width = 5)
 pit.match = intersect(names(woba.naive.p), names(woba.true.pit))
 few.pa = intersect(pit.match, names(which(pa.p < 20)))
@@ -413,10 +395,13 @@ legend('topleft', c('Diagonal y = x', 'Mean True wOBA', '< 20 PA', '> 19 PA'),
     col = c('forestgreen', 'black', 'darkorange', 'dodgerblue'))
 dev.off()
 
+# Produce Table 5 in paper
 head(-sort(-woba.true.bat))
 tail(-sort(-woba.true.bat))
-head(sort(woba.true.pit)pitail(sort(woba.true.pit))
+head(sort(woba.true.pit))
+tail(sort(woba.true.pit))
 
+# Produce Table 6 in paper
 qual.bat = intersect(bat.match, names(which(pa > 500)))
 head(-sort(woba.naive[qual.bat] - woba.true.bat[qual.bat]))
 tail(-sort(woba.naive[qual.bat] - woba.true.bat[qual.bat]))
